@@ -1,0 +1,44 @@
+<!--
+    The observable 'allCamerasObs' is passed to the async pipe.
+    Using the keyword 'as' we can create an alias and get the data from inside the observable.
+    ngIf will remain false until we receive a positive value.
+    This means that until our first request is successfully complete or if we receive an HTTP error, the 'else' condition will be true.
+    This allows us to handle the loading and error messages in the ng-template rendered by else condition.
+-->
+<ng-container *ngIf="allCamerasObs | async as allCameras; else loadingOrError">
+    <!-- 
+        Since we have received a positive response, we can use the alias and check for presence of data.
+        If no data is present, we can display a 'no data message'.
+     -->
+    <ng-container *ngIf="allCameras && allCameras.length > 0; else noDataMsg">
+        <!--
+            Since our variable contains some data, we can now display the data we want.
+        -->
+        <ng-container *ngFor="let camera of allCameras">
+            <p>{{camera.name}}</p>
+        </ng-container>
+    </ng-container>
+</ng-container>
+
+<!-- template rendered when array is empty -->
+<ng-template #noDataMsg>
+    <div class="message-box">
+        No cameras to display
+    </div>
+</ng-template>
+
+<!-- template rendered when either a positive response isn't received or when we have an HTTP error -->
+<ng-template #loadingOrError>
+    <!-- Either we have an error or the data is loading -->
+    <div
+        class="message-box"
+        *ngIf="hasError; else loading"
+    >
+        An error ocurred while fetching data from backend
+    </div>
+</ng-template>
+<ng-template #loading>
+    <div class="message-box">
+        Loading...
+    </div>
+</ng-template>

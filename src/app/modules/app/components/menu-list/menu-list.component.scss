@@ -1,0 +1,29 @@
+.active {
+  background-color: #b4bec2;
+}
+
+mat-icon {
+  margin-right: 5px;
+}
+
+.mat-list-item {
+  padding: 8px 0;
+  display: flex;
+  width: auto;
+}
+
+a > mat-icon {
+  margin-right: 10px;
+}
+
+.expand-icon {
+  flex: 1 1 0%;
+  box-sizing: border-box;
+  flex-direction: row;
+  display: flex;
+
+  span {
+    flex: 1 1 0%;
+    box-sizing: border-box;
+  }
+}
