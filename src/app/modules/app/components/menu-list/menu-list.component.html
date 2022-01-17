@@ -1,0 +1,32 @@
+<div *ngFor="let navItem of navItems">
+    <a
+        mat-list-item
+        class="menu-list-item"
+        (click)="navItem.expanded = !navItem.expanded;"
+    >
+        <mat-icon>{{navItem.iconName}}</mat-icon>
+        {{navItem.displayName}}
+        <span
+            class="expand-icon"
+            *ngIf="hasChildren(navItem)"
+        >
+            <span></span>
+            <mat-icon [@indicatorRotate]="expanded ? 'expanded': 'collapsed'">
+                expand_more
+            </mat-icon>
+        </span>
+    </a>
+    <ng-container *ngIf="navItem.expanded && hasChildren(navItem)">
+        <a
+            mat-list-item
+            *ngFor="let navItemChild of navItem.children"
+            class="menu-list-item"
+            [ngStyle]="{'padding-left': '12px'}"
+            [routerLink]="navItemChild.route"
+            routerLinkActive="active"
+        >
+            <mat-icon>{{navItemChild.iconName}}</mat-icon>
+            {{navItemChild.displayName}}
+        </a>
+    </ng-container>
+</div>

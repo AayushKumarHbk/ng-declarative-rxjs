@@ -1,0 +1,17 @@
+.example-container {
+  width: 100%;
+  height: calc(100vh - 64px);
+  border-right: 1px solid #555;
+}
+
+mat-drawer {
+  width: 250px;
+  background-color: #fafafa;
+}
+
+mat-drawer-content {
+  width: calc(100% - 250px);
+  height: calc(100vh - 64px);
+  padding: 10px;
+  background-color: #fafafa;
+}

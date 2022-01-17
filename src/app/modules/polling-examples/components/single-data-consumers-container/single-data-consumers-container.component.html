@@ -1,0 +1,307 @@
+<mat-tab-group dynamicHeight>
+    <mat-tab label="Example">
+        <mat-grid-list
+            cols="2"
+            rowHeight="1:1"
+        >
+            <mat-grid-tile>
+                <h2>Consumer #1</h2>
+                <app-single-data-consumer></app-single-data-consumer>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <h2>Consumer #2</h2>
+                <app-single-data-consumer></app-single-data-consumer>
+            </mat-grid-tile>
+        </mat-grid-list>
+    </mat-tab>
+    <mat-tab label="Description">
+        <ng-template matTabContent>
+            <div class="docs-api">
+                <h2>
+                    Polling data from one API and consuming it in multiple components
+                </h2>
+
+                <!-- service -->
+                <h3 class="docs-api-h3 docs-header-link">Service</h3>
+                <p>
+                    <span class="docs-api-modifier-method-marker">
+                        Motive
+                    </span>
+                    To have a single instance of a service, poll data from an API and allow multiple
+                    consmers (components/services) to consume the data. All of this has to be done in the
+                    declarative
+                    way i.e. without using subsciptions at all.
+                </p>
+                <p>We must keep a few points in mind:</p>
+                <table class="docs-api-properties-table">
+                    <tbody>
+                        <tr class="docs-api-properties-row">
+                            <td class="docs-api-properties-name-cell">
+                                <p class="docs-api-property-name">
+                                    <code>1.</code>
+                                </p>
+                            </td>
+                            <td class="docs-api-properties-name-cell">
+                                <p class="docs-api-property-name">
+                                    <code>Use single instance of service</code>
+                                </p>
+                            </td>
+                            <td class="docs-api-property-description">
+                                <p>Since multiple consumers consume same type of data from same API, keep the data from
+                                    response in a single service and feed the consumers.</p>
+                            </td>
+                        </tr>
+                        <tr class="docs-api-properties-row">
+                            <td class="docs-api-properties-name-cell">
+                                <p class="docs-api-property-name">
+                                    <code>2.</code>
+                                </p>
+                            </td>
+                            <td class="docs-api-properties-name-cell">
+                                <p class="docs-api-property-name">
+                                    <code>Make only one request per iteration of polling</code>
+                                </p>
+                            </td>
+                            <td class="docs-api-property-description">
+                                <p>Since multiple consumers consume same type of data, we must make only one request and
+                                    feed the data from response to all of them.</p>
+                                <p>To do this, we will use single request observable and feed data to the consumers.
+                                    I'll be explaining it in a moment later in this page.</p>
+                            </td>
+                        </tr>
+                        <tr class="docs-api-properties-row">
+                            <td class="docs-api-properties-name-cell">
+                                <p class="docs-api-property-name">
+                                    <code>3.</code>
+                                </p>
+                            </td>
+                            <td class="docs-api-properties-name-cell">
+                                <p class="docs-api-property-name">
+                                    <code>Avoid subscriptions</code>
+                                </p>
+                            </td>
+                            <td class="docs-api-property-description">
+                                <p>In declarative paradigm or we can say in a more "rx-y" way, we avoid subscriptions.
+                                </p>
+                                <p>Subscriptions just take the data out of the stream. It will force us to have more
+                                    global flags, objects and what not. Therefore, we will keep the request observable
+                                    in a global variable in the service and return this observable to the components.
+                                </p>
+                                <p>Any data validations will be implemented in the component itself.</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h4 class="docs-header-link docs-api-h4 docs-api-class-name">
+                    <code>Service Implementation</code>
+                </h4>
+                <div class="docs-markdown">
+                    <pre><code class="language-ts" [innerHTML]="serviceTsImpl"></code></pre>
+                </div>
+                <h4 class="docs-header-link docs-api-h4 docs-api-class-name">
+                    <code>Rxjs operators usage explained</code>
+                </h4>
+                <table class="docs-api-method-table">
+                    <ng-container *ngFor="let explanation of rxjsOperators">
+                        <thead>
+                            <tr class="docs-api-method-name-row">
+                                <th
+                                    colspan="2"
+                                    class="docs-api-method-name-cell"
+                                >
+                                    <pre><code class="language-ts" [innerHTML]="explanation.key"></code></pre>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="docs-api-method-description-row">
+                                <td
+                                    colspan="2"
+                                    class="docs-api-method-description-cell"
+                                >
+                                    <p *ngFor="let desc of explanation.value">{{desc}}</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </ng-container>
+                </table>
+
+                <!-- component -->
+                <h3 class="docs-api-h3 docs-header-link">Component</h3>
+                <p>
+                    <span class="docs-api-modifier-method-marker">
+                        Motive
+                    </span>
+                    To consume data from service as observable and display it in template. All of this without
+                    subscribing.
+                </p>
+                <p>We must keep a few points in mind:</p>
+                <table class="docs-api-properties-table">
+                    <tbody>
+                        <tr class="docs-api-properties-row">
+                            <td class="docs-api-properties-name-cell">
+                                <p class="docs-api-property-name">
+                                    <code>1.</code>
+                                </p>
+                            </td>
+                            <td class="docs-api-properties-name-cell">
+                                <p class="docs-api-property-name">
+                                    <code>Consume data from service</code>
+                                </p>
+                            </td>
+                            <td class="docs-api-property-description">
+                                <p>Since, service is returning us an observale, our component will take this
+                                    observable, add <span class="hljs-keyword">.pipe()</span> to it and perform whatever
+                                    operations we want using different operators of rxjs. But we still won't subscribe
+                                    to the observable (avoid manual subscriptions, i mean to say). We will use this
+                                    observable directly in the HTML template using <span
+                                        class="hljs-keyword">async</span>
+                                    pipe provided by Angular.</p>
+                            </td>
+                        </tr>
+                        <tr class="docs-api-properties-row">
+                            <td class="docs-api-properties-name-cell">
+                                <p class="docs-api-property-name">
+                                    <code>2.</code>
+                                </p>
+                            </td>
+                            <td class="docs-api-properties-name-cell">
+                                <p class="docs-api-property-name">
+                                    <code>Perform operations in component</code>
+                                </p>
+                            </td>
+                            <td class="docs-api-property-description">
+                                <p>With the help of rxjs operators, we can perform several operations such as:</p>
+                                <ul>
+                                    <li>
+                                        Invoke methods or update global fields: Use <span
+                                            class="hljs-keyword">tap</span>
+                                        operator.
+                                    </li>
+                                    <li>
+                                        Filter data: You can modify the stream using <span
+                                            class="hljs-keyword">map</span>
+                                        operator. Your data stream is
+                                        now modified
+                                        and will use this filtered data.
+                                    </li>
+                                    <li>
+                                        Show error/loading message: Use <span class="hljs-keyword">error:</span>
+                                        callback of <span class="hljs-keyword">tap</span> operator
+                                        and find if observable contains an error. If so, you can turn a global
+                                        boolean flag to true and use it in template.
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr class="docs-api-properties-row">
+                            <td class="docs-api-properties-name-cell">
+                                <p class="docs-api-property-name">
+                                    <code>3.</code>
+                                </p>
+                            </td>
+                            <td class="docs-api-properties-name-cell">
+                                <p class="docs-api-property-name">
+                                    <code>Display data in template</code>
+                                </p>
+                            </td>
+                            <td class="docs-api-property-description">
+                                <p>To display the data, we will directly use the observable in the template using
+                                    <span class="hljs-keyword">async</span> pipe. Angular will be responsible for
+                                    subscribing to and unsubscribing from this observable.
+                                </p>
+                            </td>
+                        </tr>
+                        <tr class="docs-api-properties-row">
+                            <td class="docs-api-properties-name-cell">
+                                <p class="docs-api-property-name">
+                                    <code>3.</code>
+                                </p>
+                            </td>
+                            <td class="docs-api-properties-name-cell">
+                                <p class="docs-api-property-name">
+                                    <code>Add data validations in template</code>
+                                </p>
+                            </td>
+                            <td class="docs-api-property-description">
+                                <p>We can create an alias using <span class="hljs-keyword">as</span>
+                                    inside <span class="hljs-keyword">ngIf</span> or <span
+                                        class="hljs-keyword">ngFor</span>.This alias
+                                    can be used to handle different scenarios such as:
+                                </p>
+                                <ul>
+                                    <li>
+                                        Response is empty
+                                    </li>
+                                    <li>
+                                        Response is valid and contains data.
+                                    </li>
+                                    <li>
+                                        HTTP error
+                                    </li>
+                                </ul>
+                                <p>This is demonstrated in the example running alongside. I'll explain at the code level
+                                    too
+                                    in the page below.
+                                </p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- Component TS implementation -->
+                <h4 class="docs-header-link docs-api-h4 docs-api-class-name">
+                    <code>Component TS Implementation</code>
+                </h4>
+                <div class="docs-markdown">
+                    <pre><code class="language-ts" [innerHTML]="componentTsImplCode"></code></pre>
+                </div>
+                <p>As you can see, we didn't suibscribe to the observable returned by our service.
+                    We just added a <span class="hljs-keyword">.pipe()</span> to it to perform custom operations. Inside
+                    it, we used rxjs's <span class="hljs-keyword">tap</span> operator which provides two callbacks -
+                    one as positive callback and the other as error callback. Any operations performed inside it will
+                    not modify the data in the stream</p>
+                <!-- Component HTML implementation -->
+                <h4 class="docs-header-link docs-api-h4 docs-api-class-name">
+                    <code>HTML Implementation</code>
+                </h4>
+                <!-- typescript code in component -->
+                <div class="docs-markdown">
+                    <pre><code class="language-ts" [innerHTML]="htmlImplCode"></code></pre>
+                </div>
+                <h4 class="docs-header-link docs-api-h4 docs-api-class-name">
+                    <code>HTML Implementation explained</code>
+                </h4>
+                <table class="docs-api-method-table">
+                    <ng-container *ngFor="let explanation of htmlCodeNotes">
+                        <thead>
+                            <tr class="docs-api-method-name-row">
+                                <th
+                                    colspan="2"
+                                    class="docs-api-method-name-cell"
+                                >
+                                    <pre><code class="language-ts" [innerHTML]="explanation.key"></code></pre>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="docs-api-method-description-row">
+                                <td
+                                    colspan="2"
+                                    class="docs-api-method-description-cell"
+                                >
+                                    <p *ngFor="let desc of explanation.value">{{desc}}</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </ng-container>
+                </table>
+                <p>
+                    <span class="docs-api-modifier-method-marker">
+                        Note
+                    </span>
+                    Responses have been mocked and are picked randomly.
+                </p>
+            </div>
+        </ng-template>
+    </mat-tab>
+</mat-tab-group>

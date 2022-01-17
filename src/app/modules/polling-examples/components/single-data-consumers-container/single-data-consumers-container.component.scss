@@ -1,0 +1,196 @@
+.mat-tab-body-content {
+  overflow: auto !important;
+  overflow-y: auto !important;
+  height: calc(100vh - 125px) !important;
+}
+
+mat-grid-list {
+  height: 100%;
+}
+
+mat-grid-list > div {
+  font-size: medium;
+
+  mat-icon {
+    vertical-align: middle;
+    color: rgba(0, 98, 255, 0.692);
+  }
+
+  span {
+    padding-left: 5px;
+  }
+}
+
+mat-divider {
+  margin-bottom: 10px;
+}
+
+mat-grid-tile {
+  height: 100%;
+  padding: 0 !important;
+}
+
+mat-grid-tile > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: start !important;
+}
+
+mat-grid-tile:nth-child(1) > div {
+  margin-left: 10px;
+  margin-right: 5px;
+}
+
+mat-grid-tile:nth-child(2) > div {
+  margin-left: 5px;
+  margin-right: 10px;
+}
+
+app-single-data-consumer {
+  width: 100%;
+  text-align: center;
+}
+
+h1,
+h2 {
+  font-weight: 400 !important;
+}
+
+h2 {
+  display: block !important;
+  font-size: 1.5em !important;
+  margin-block-start: 0.83em !important;
+  margin-block-end: 0.83em !important;
+  margin-inline-start: 0px !important;
+  margin-inline-end: 0px !important;
+  font-weight: bold !important;
+}
+
+.docs-api-h3 {
+  font-weight: 300 !important;
+  font-size: 24px !important;
+  line-height: 32px !important;
+  margin: 40px 0 20px !important;
+  padding-bottom: 3px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.docs-header-link {
+  padding-top: 20px;
+}
+
+.docs-api-modifier-method-marker {
+  background-color: #7e57c2;
+  color: #fff;
+  display: inline-block;
+  vertical-align: baseline;
+  padding: 2px 7px;
+  margin-right: 12px;
+  border-radius: 5px;
+  font-size: 13px;
+}
+
+h4 {
+  code {
+    font-family: Roboto Mono, monospace;
+  }
+}
+
+.docs-api table,
+.docs-markdown > table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin: 0 0 32px;
+  width: 100%;
+}
+
+table {
+  display: table;
+  border-collapse: separate;
+  box-sizing: border-box;
+  text-indent: initial;
+  border-spacing: 2px;
+  border-color: grey;
+}
+tr {
+  display: table-row;
+  vertical-align: inherit;
+  border-color: inherit;
+}
+
+.docs-api td,
+.docs-api thead,
+.docs-markdown > table td,
+.docs-markdown > table thead {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.docs-api td,
+.docs-markdown > table td {
+  padding: 4px 8px;
+}
+
+td {
+  display: table-cell;
+  vertical-align: inherit;
+}
+
+.docs-api td,
+.docs-api thead,
+.docs-markdown > table td,
+.docs-markdown > table thead {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.hljs-name,
+.hljs-keyword,
+.hljs-type,
+.hljs-attribute {
+  color: #3b78e7;
+}
+
+.docs-markdown pre {
+  background: rgba(0, 0, 0, 0.01) !important;
+  border: 0.5px solid rgba(0, 0, 0, 0.2);
+}
+
+.docs-markdown pre {
+  border-radius: 5px;
+  display: block;
+  margin: 16px auto;
+  overflow-x: auto;
+  padding: 20px;
+  white-space: pre-wrap;
+}
+
+pre {
+  font-size: 14px;
+}
+
+code,
+pre {
+  font-family: Roboto Mono, monospace;
+}
+
+h4 {
+  code {
+    font-size: 90%;
+  }
+}
+
+.docs-api-class-name {
+  margin-top: 28px !important;
+  margin-bottom: 0 !important;
+  display: block;
+  font-weight: 700 !important;
+  font-size: 20px !important;
+  background: none;
+}
+
+.docs-api-method-name-cell {
+  color: #4527a0;
+}
+
+.docs-api-method-table th {
+  background: whitesmoke !important;
+}
